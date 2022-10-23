@@ -3,6 +3,8 @@
   import "../app.css";
 
   let files: FileList;
+
+  export const prerender = true;
 </script>
 
 <header id="header" class="header">
