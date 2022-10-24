@@ -8,7 +8,7 @@ export default function App() {
   const [results, setResults] = useState<Results | null>(null);
 
   const now = new Date().getTime();
-
+  const docs = "https://github.com/tun43p/randmeet/blob/main/DOCUMENTATION.md";
   const headers = ["Personne A", "Personne B"];
 
   // TODO(tun43p): Can we use react-csv to import data from file ?
@@ -113,6 +113,11 @@ export default function App() {
             })}
         </StyledMain>
       </StyledWrapper>
+      <StyledHelp>
+        <a href={docs} target="_blank">
+          ?
+        </a>
+      </StyledHelp>
     </StyledApp>
   );
 }
@@ -144,7 +149,7 @@ const StyledLogo = styled.p`
 `;
 
 const StyledButton = styled.div`
-  color: #000000;
+  color: #202020;
   background: #ffffff;
   padding: 0.15rem 1rem;
   border-radius: 0.5rem;
@@ -187,6 +192,34 @@ const StyledHeaderButtons = styled.div`
 
     & *:hover {
       cursor: pointer;
+    }
+  }
+`;
+
+const StyledHelp = styled.div`
+  background: #e67e22;
+  display: flex;
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  width: 4rem;
+  height: 4em;
+  border-radius: 2rem;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  transition: all ease-in-out 0.25s;
+
+  & a {
+    font-size: 2rem;
+    color: #ffffff;
+  }
+
+  &:hover {
+    background: #ffffff;
+
+    a {
+      color: #e67e22;
     }
   }
 `;
