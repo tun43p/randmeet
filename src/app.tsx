@@ -4,16 +4,12 @@ import styled from "styled-components";
 import { Data, Person, Persons, Results, Rows, Teams } from "./types";
 
 // TODO(tun43p): Split on multiple files
-
 export default function App() {
   const [results, setResults] = useState<Results | null>(null);
 
   const now = new Date().getTime();
 
-  const headers = [
-    { label: "Personne A", key: "a" },
-    { label: "Personne B", key: "b" },
-  ];
+  const headers = ["Personne A", "Personne B"];
 
   // TODO(tun43p): Can we use react-csv to import data from file ?
   async function onChange(
