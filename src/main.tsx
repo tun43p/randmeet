@@ -5,7 +5,6 @@ import "./style.css";
 
 // TODO(tun43p): Setup ESLint
 // TODO(tun43p): Setup Prettier
-// TODO(tun43p): Download results as CSV file
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>

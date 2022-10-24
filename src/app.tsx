@@ -1,10 +1,21 @@
+import { CSVLink } from "react-csv";
 import { useState } from "react";
 import styled from "styled-components";
 import { Data, Person, Persons, Results, Rows, Teams } from "./types";
 
+// TODO(tun43p): Split on multiple files
+
 export default function App() {
   const [results, setResults] = useState<Results | null>(null);
 
+  const now = new Date().getTime();
+
+  const headers = [
+    { label: "Personne A", key: "a" },
+    { label: "Personne B", key: "b" },
+  ];
+
+  // TODO(tun43p): Can we use react-csv to import data from file ?
   async function onChange(
     e: React.ChangeEvent<HTMLInputElement>
   ): Promise<void> {
@@ -19,6 +30,7 @@ export default function App() {
       team: row.split(",")[2],
     }));
 
+    // TODO(tun43p): Create filters with a client side input
     const statusFilter = ["DUOA", "Manager", "PM"];
 
     const filteredRows: Rows = rows
@@ -46,7 +58,7 @@ export default function App() {
       const a = data.persons.filter((person) => person.team.index === i);
       const b = data.persons.filter((person) => person.team.index > i);
 
-      // TODO: Randomize results
+      // TODO(tun43p): Randomize results
       for (let j = 0; j < a.length; j++) {
         for (let k = 0; k < b.length; k++) {
           results.push({
@@ -65,16 +77,29 @@ export default function App() {
       <StyledWrapper>
         <StyledHeader id="header" className="header">
           <StyledLogo>Randmeet</StyledLogo>
-          <StyledButton>
-            <label htmlFor="input">Upload your CSV file</label>
-            <input
-              id="input"
-              type="file"
-              accept=".csv"
-              style={{ display: "none" }}
-              onChange={onChange}
-            />
-          </StyledButton>
+          <StyledHeaderButtons>
+            {results && (
+              <CSVLink
+                className="csv"
+                filename={`randmeet_${now}.csv`}
+                data={results.map((result) => [result.a.name, result.b.name])}
+                headers={headers}
+                target="_blank"
+              >
+                Download
+              </CSVLink>
+            )}
+            <StyledButton>
+              <label htmlFor="input">Upload</label>
+              <input
+                id="input"
+                type="file"
+                accept=".csv"
+                style={{ display: "none" }}
+                onChange={onChange}
+              />
+            </StyledButton>
+          </StyledHeaderButtons>
         </StyledHeader>
         <StyledMain>
           {results !== null &&
@@ -150,4 +175,22 @@ const StyledPerson = styled.div`
   margin: 0.5rem;
   padding: 0.5rem;
   border-radius: 0.5rem;
+`;
+
+const StyledHeaderButtons = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  & .csv {
+    color: #000000;
+    background: #ffffff;
+    padding: 0.15rem 1rem;
+    margin-right: 2rem;
+    border-radius: 0.5rem;
+
+    & *:hover {
+      cursor: pointer;
+    }
+  }
 `;
