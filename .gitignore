@@ -9,6 +9,7 @@ yarn-debug.log*
 yarn-error.log*
 !.env.example
 !.vscode/extensions.json
+*.csv
 *.env*
 *.local
 *.log
