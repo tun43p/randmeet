@@ -20,7 +20,8 @@ export default function App() {
     const file = e.target.files[0];
     const input = await file.text();
 
-    const rows: Rows = input.split(/\r\n/g).map((row) => ({
+    // If we need to delete some spaces: input.split(/\r\n/g)
+    const rows: Rows = input.split(/\n/g).map((row) => ({
       name: row.split(",")[0],
       status: row.split(",")[1],
       team: row.split(",")[2],
@@ -97,7 +98,7 @@ export default function App() {
             </StyledButton>
           </StyledHeaderButtons>
         </StyledHeader>
-        <StyledMain>
+        <StyledMain style={{ overflowY: results ? "scroll" : "unset" }}>
           {results !== null &&
             results.map((result, key) => {
               return (
@@ -162,7 +163,6 @@ const StyledButton = styled.div`
 const StyledMain = styled.main`
   height: calc(100vh - 4rem);
   width: 100%;
-  overflow: scroll;
 `;
 
 const StyledResult = styled.div`
