@@ -7,11 +7,13 @@ import {
   getRowsFromCSVFile,
 } from "./utils/helpers";
 import HeaderComponent from "./components/header";
-import HelpComponent from "./components/help";
-import PersonComponent from "./components/person";
+import AsideComponent from "./components/aside";
+import ResultsComponent from "./components/results";
 
 export default function App() {
   const [meetings, setMeetings] = useState<Meetings | undefined>(undefined);
+
+  const now = new Date().getTime();
 
   async function onUpload(
     e: React.ChangeEvent<HTMLInputElement>,
@@ -28,44 +30,22 @@ export default function App() {
 
   return (
     <StyledApp>
-      <StyledWrapper>
-        <HeaderComponent meetings={meetings} onUpload={onUpload} />
-        <StyledMain style={{ overflowY: meetings ? "scroll" : "unset" }}>
-          {meetings &&
-            meetings.map((meeting, key) => {
-              return (
-                <StyledPersons key={key}>
-                  <PersonComponent person={meeting.a} />
-                  <PersonComponent person={meeting.b} />
-                </StyledPersons>
-              );
-            })}
-        </StyledMain>
-      </StyledWrapper>
-      <HelpComponent />
+      <HeaderComponent />
+      <StyledMain>
+        <AsideComponent meetings={meetings} now={now} onUpload={onUpload} />
+        <ResultsComponent meetings={meetings} />
+      </StyledMain>
     </StyledApp>
   );
 }
 
 const StyledApp = styled.div`
-  color: #ffffff;
-  background-color: #202020;
+  color: #202020;
+  background-color: #ffffff;
   width: 100%;
   height: 100vh;
-`;
-
-const StyledWrapper = styled.div`
-  width: 60%;
-  height: 100vh;
-  margin: 0 auto;
 `;
 
 const StyledMain = styled.main`
-  height: calc(100vh - 4rem);
-  width: 100%;
-`;
-
-const StyledPersons = styled.div`
   display: flex;
-  width: 100%;
 `;
