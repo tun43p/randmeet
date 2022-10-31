@@ -41,39 +41,40 @@ export function getEntitiesFromRows(rows: Rows): Entities {
   }
 }
 
-// FIXME: This function does not work
-function meetingsFilter(a: Person, b: Person): boolean {
-  const firstCondition =
-    a.status !== null &&
+function excludeMeeting(a: Person, b: Person): boolean {
+  return (
     a.status !== undefined &&
-    a.status.length !== 0 &&
-    statusToFilter.includes(a.status);
+    b.status != undefined &&
+    statusToFilter.includes(a.status) &&
+    statusToFilter.includes(b.status)
+  );
+}
 
-  const secondCondition = a.status == b.status;
-
-  return firstCondition && secondCondition;
+function suffleMeetings(meetings: Meetings): Meetings {
+  return meetings.sort((a, b) => 0.5 - Math.random());
 }
 
 export function createMeetings(entities: Entities): Meetings {
   try {
-    const meetings = [];
+    const meetings: Meetings = [];
 
     for (let i = 0; i < entities.teams.length; i++) {
-      const a = entities.persons.filter((person) => person.team.index === i);
-      const b = entities.persons.filter((person) => person.team.index > i);
+      const n = entities.persons.filter((person) => person.team.index === i);
+      const l = entities.persons.filter((person) => person.team.index > i);
 
-      // TODO(tun43p): Randomize results
-      for (let j = 0; j < a.length; j++) {
-        for (let k = 0; k < b.length; k++) {
-          meetings.push({
-            a: a[j],
-            b: b[k],
-          });
+      for (let j = 0; j < n.length; j++) {
+        for (let k = 0; k < l.length; k++) {
+          const a = n[j],
+            b = l[k];
+
+          if (!excludeMeeting(a, b)) {
+            meetings.push({ a, b });
+          }
         }
       }
     }
 
-    return meetings;
+    return suffleMeetings(meetings);
   } catch (error) {
     throw error;
   }
