@@ -1,6 +1,6 @@
 export type Row = {
   name: string;
-  status: string;
+  status?: string;
   team: string;
 };
 
@@ -8,6 +8,7 @@ export type Rows = Row[];
 
 export type Person = {
   name: string;
+  status?: string;
   team: {
     index: number;
     name: string;
@@ -20,12 +21,14 @@ export type Team = string;
 
 export type Teams = Team[];
 
-export type Data = {
+export type Entities = {
   persons: Persons;
   teams: Teams;
 };
 
-export type Results = {
+export type Meeting = {
   a: Person;
   b: Person;
-}[];
+};
+
+export type Meetings = Meeting[];
