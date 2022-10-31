@@ -5,7 +5,7 @@ export default function HelpComponent() {
   return (
     <StyledHelp>
       {/* TODO(tun43p): Add a tooltip here */}
-      <a href={documentationLink} target="_blank">
+      <a href={documentationLink} target="_blank" rel="noreferrer">
         ?
       </a>
     </StyledHelp>
