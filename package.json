@@ -7,7 +7,11 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "fix": "yarn lint && yarn format",
+    "format": "prettier --write .",
+    "lint": "eslint ./src --ext .jsx,.js,.ts,.tsx --quiet --fix --ignore-path ./.gitignore",
+    "preview": "vite preview",
+    "type-check": "tsc"
   },
   "dependencies": {
     "prop-types": "^15.8.1",
@@ -21,7 +25,17 @@
     "@types/react-csv": "^1.1.3",
     "@types/react-dom": "^18.0.6",
     "@types/styled-components": "^5.1.26",
+    "@typescript-eslint/eslint-plugin": "^5.41.0",
+    "@typescript-eslint/parser": "^5.41.0",
     "@vitejs/plugin-react": "^2.1.0",
+    "eslint": "^8.26.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.31.10",
+    "eslint-plugin-simple-import-sort": "^8.0.0",
+    "prettier": "^2.7.1",
     "typescript": "^4.6.4",
     "vite": "^3.1.0"
   }

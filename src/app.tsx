@@ -14,7 +14,7 @@ export default function App() {
   const [meetings, setMeetings] = useState<Meetings | undefined>(undefined);
 
   async function onUpload(
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ): Promise<void> {
     if (!e.target.files || !e.target.files[0]) return;
 
