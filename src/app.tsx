@@ -1,5 +1,4 @@
 import { useState } from "react";
-import styled from "styled-components";
 import { Filters, Meetings } from "./types";
 import {
   createMeetings,
@@ -11,6 +10,8 @@ import AsideComponent from "./components/aside";
 import ResultsComponent from "./components/results";
 import { statusFilters } from "./utils/constants";
 
+import "./style.css";
+
 export default function App() {
   const [filters, setFilters] = useState<Filters>(statusFilters);
   const [meetings, setMeetings] = useState<Meetings | undefined>(undefined);
@@ -21,6 +22,7 @@ export default function App() {
     e: React.ChangeEvent<HTMLInputElement>,
   ): Promise<void> {
     if (!e.target.value) return;
+    setMeetings(undefined);
     setFilters(e.target.value.split(","));
   }
 
@@ -38,9 +40,9 @@ export default function App() {
   }
 
   return (
-    <StyledApp>
+    <>
       <HeaderComponent />
-      <StyledMain>
+      <main>
         <AsideComponent
           filters={filters.toString()}
           meetings={meetings}
@@ -49,18 +51,7 @@ export default function App() {
           onUpload={onUpload}
         />
         <ResultsComponent meetings={meetings} />
-      </StyledMain>
-    </StyledApp>
+      </main>
+    </>
   );
 }
-
-const StyledApp = styled.div`
-  color: #202020;
-  background-color: #ffffff;
-  width: 100%;
-  height: 100vh;
-`;
-
-const StyledMain = styled.main`
-  display: flex;
-`;

@@ -1,0 +1,76 @@
+aside {
+  width: 30%;
+  height: 100%;
+  margin-right: var(--page-padding);
+}
+
+.fixed {
+  position: fixed;
+  width: 30%;
+  height: calc(100% - 10rem);
+}
+
+.fixed > a > div {
+  color: white;
+  background-color: var(--secondary-text-color);
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  border-radius: 1.5rem;
+}
+
+.fixed > a > div:hover {
+  background-color: var(--primary-color);
+}
+
+.part {
+  margin-bottom: 1rem;
+}
+
+.description {
+  color: #808080;
+  font-size: 0.75rem;
+  margin-bottom: 0.5rem;
+  font-style: italic;
+}
+
+.action {
+  display: flex;
+  color: white;
+  background: var(--primary-color);
+  width: 100%;
+  padding: 0.25rem 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+}
+
+.action input,
+.action label,
+.action p {
+  width: 100%;
+  cursor: pointer;
+}
+
+.description span {
+  color: #606060;
+  font-weight: bold;
+}
+
+@media screen and (max-width: 900px) {
+  aside {
+    width: 100%;
+    margin-right: 0;
+  }
+
+  .fixed {
+    position: unset;
+    width: 100%;
+  }
+}

@@ -1,0 +1,16 @@
+header {
+  width: 100%;
+  padding: 2rem var(--page-padding);
+}
+
+header p {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+@media only screen and (max-width: 480px) {
+  header {
+    display: block;
+    padding: 1rem 2rem;
+  }
+}
