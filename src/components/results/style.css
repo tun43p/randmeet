@@ -1,0 +1,46 @@
+section {
+  flex: 1;
+}
+
+.persons {
+  display: flex;
+}
+
+.person {
+  background: white;
+  width: 100%;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  margin-bottom: 1rem;
+  border: var(--border);
+}
+
+.person:first-child {
+  margin-right: 1rem;
+}
+
+.person > p {
+  font-weight: bold;
+}
+
+.person > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.person > div > p:first-child {
+  color: var(--secondary-text-color);
+}
+
+.person > div > p:last-child {
+  color: var(--primary-color);
+}
+
+@media screen and (max-width: 480px) {
+  .persons {
+    display: block;
+    margin-bottom: 1rem;
+    border-bottom: var(--border);
+  }
+}
