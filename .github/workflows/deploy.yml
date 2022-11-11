@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Build and Deploy 🍔
 on:
   push:
     branches:
@@ -17,6 +17,11 @@ jobs:
         run: |
           npm install
           npm run build
+      
+      - name: Fix base url 🐵
+        run: |
+          chmod +x .github/scripts/fix-base-url.sh
+          sh .github/scripts/fix-base-url.sh
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
