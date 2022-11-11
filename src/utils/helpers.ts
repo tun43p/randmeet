@@ -44,10 +44,10 @@ function excludeMeeting(a: Person, b: Person): boolean {
   );
 }
 
-function suffleMeetings(meetings: Meetings): Meetings {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  return meetings.sort((_a, _b) => 0.5 - Math.random());
-}
+// If we need randomness
+// function suffleMeetings(meetings: Meetings): Meetings {
+//   return meetings.sort((_a, _b) => 0.5 - Math.random());
+// }
 
 export function createMeetings(entities: Entities): Meetings {
   const meetings: Meetings = [];
@@ -68,7 +68,7 @@ export function createMeetings(entities: Entities): Meetings {
     }
   }
 
-  return suffleMeetings(meetings);
+  return meetings;
 }
 
 export function convertMeetingsToCSV(meetings: Meetings) {
