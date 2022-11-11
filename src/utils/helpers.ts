@@ -1,18 +1,20 @@
 import { Entities, Meetings, Person, Persons, Rows, Teams } from "../types";
-import { statusToFilter } from "./constants";
+import { csvDelimiter, statusToFilter } from "./constants";
 
 // // TODO(tun43p): Can we use react-csv to import data from file ?
 export async function getRowsFromCSVFile(file: File): Promise<Rows> {
   const input = await file.text();
 
-  // If we need to delete some spaces: input.split(/\r\n/g)
-  const rows: Rows = input.split(/\n/g).map((row) => ({
-    name: row.split(",")[0],
-    status: row.split(",")[1],
-    team: row.split(",")[2],
+  // If we need to delete some spaces: (/\n/g) / (/\r\n/g)
+  const rows: Rows = input.split(/\r\n/g).map((row) => ({
+    name: row.split(csvDelimiter)[0],
+    status: row.split(csvDelimiter)[1],
+    team: row.split(csvDelimiter)[2],
   }));
 
-  return rows;
+  const filteredRows = rows.filter((row) => row.name.length !== 0);
+
+  return filteredRows;
 }
 
 export function getEntitiesFromRows(rows: Rows): Entities {
@@ -42,9 +44,10 @@ function excludeMeeting(a: Person, b: Person): boolean {
   );
 }
 
-function suffleMeetings(meetings: Meetings): Meetings {
-  return meetings.sort((a, b) => 0.5 - Math.random());
-}
+// If we need randomness
+// function suffleMeetings(meetings: Meetings): Meetings {
+//   return meetings.sort((_a, _b) => 0.5 - Math.random());
+// }
 
 export function createMeetings(entities: Entities): Meetings {
   const meetings: Meetings = [];
@@ -65,7 +68,7 @@ export function createMeetings(entities: Entities): Meetings {
     }
   }
 
-  return suffleMeetings(meetings);
+  return meetings;
 }
 
 export function convertMeetingsToCSV(meetings: Meetings) {
