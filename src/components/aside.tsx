@@ -7,46 +7,60 @@ import { convertMeetingsToCSV } from "../utils/helpers";
 import IconComponent, { IconColor } from "./icon";
 
 type Props = {
+  filters: string;
   meetings?: Meetings;
   now: number;
+  onFiltersChange: React.ChangeEventHandler;
   onUpload: React.ChangeEventHandler;
 };
 
-export default function AsideComponent({ meetings, now, onUpload }: Props) {
+export default function AsideComponent({
+  filters,
+  meetings,
+  now,
+  onFiltersChange,
+  onUpload,
+}: Props) {
   return (
     <StyledAside>
-      <StyledTitle>Actions</StyledTitle>
-      <StyledActionFiled>
-        <IconComponent color={IconColor.blue} icon={<FiUpload />} />
-        <label htmlFor="input">Importer un fichier CSV</label>
-        <input
-          id="input"
-          type="file"
-          accept=".csv"
-          style={{ display: "none" }}
-          onChange={onUpload}
-        />
-      </StyledActionFiled>
-      {meetings && (
-        <CSVLink
-          className="csv"
-          filename={`randmeet_${now}.csv`}
-          data={convertMeetingsToCSV(meetings)}
-          headers={csvHeaders}
-          target="_blank"
-        >
-          <StyledActionFiled>
-            <IconComponent color={IconColor.green} icon={<FiDownload />} />
-            Exporter un fichier CSV
-          </StyledActionFiled>
-        </CSVLink>
-      )}
-      <a href={documentationLink} target="_blank" rel="noreferrer">
-        <StyledActionFiled>
-          <IconComponent color={IconColor.purple} icon={<FiBookOpen />} />
-          <p>Afficher la documentation</p>
-        </StyledActionFiled>
-      </a>
+      <StyledContainer>
+        <StyledTitle>Actions</StyledTitle>
+        <StyledActionField>
+          <IconComponent color={IconColor.blue} icon={<FiUpload />} />
+          <label htmlFor="input">Importer un fichier CSV</label>
+          <input
+            id="input"
+            type="file"
+            accept=".csv"
+            style={{ display: "none" }}
+            onChange={onUpload}
+          />
+        </StyledActionField>
+        {meetings && (
+          <CSVLink
+            className="csv"
+            filename={`randmeet_${now}.csv`}
+            data={convertMeetingsToCSV(meetings)}
+            headers={csvHeaders}
+            target="_blank"
+          >
+            <StyledActionField>
+              <IconComponent color={IconColor.green} icon={<FiDownload />} />
+              Exporter un fichier CSV
+            </StyledActionField>
+          </CSVLink>
+        )}
+        <a href={documentationLink} target="_blank" rel="noreferrer">
+          <StyledActionField>
+            <IconComponent color={IconColor.purple} icon={<FiBookOpen />} />
+            <p>Afficher la documentation</p>
+          </StyledActionField>
+        </a>
+      </StyledContainer>
+      <StyledContainer>
+        <StyledTitle>Filtres</StyledTitle>
+        <input value={filters} onChange={onFiltersChange} />
+      </StyledContainer>
     </StyledAside>
   );
 }
@@ -61,13 +75,17 @@ const StyledAside = styled.aside`
   }
 `;
 
+const StyledContainer = styled.div`
+  margin-bottom: 1rem;
+`;
+
 const StyledTitle = styled.h2`
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 1rem;
 `;
 
-const StyledActionFiled = styled.div`
+const StyledActionField = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 0.5rem;

@@ -1,5 +1,13 @@
-import { Entities, Meetings, Person, Persons, Rows, Teams } from "../types";
-import { csvDelimiter, statusToFilter } from "./constants";
+import {
+  Entities,
+  Filters,
+  Meetings,
+  Person,
+  Persons,
+  Rows,
+  Teams,
+} from "../types";
+import { csvDelimiter } from "./constants";
 
 // // TODO(tun43p): Can we use react-csv to import data from file ?
 export async function getRowsFromCSVFile(file: File): Promise<Rows> {
@@ -35,12 +43,12 @@ export function getEntitiesFromRows(rows: Rows): Entities {
   return { persons, teams };
 }
 
-function excludeMeeting(a: Person, b: Person): boolean {
+function excludeMeeting(a: Person, b: Person, filters: Filters): boolean {
   return (
     a.status !== undefined &&
     b.status != undefined &&
-    statusToFilter.includes(a.status) &&
-    statusToFilter.includes(b.status)
+    filters.includes(a.status) &&
+    filters.includes(b.status)
   );
 }
 
@@ -49,7 +57,7 @@ function excludeMeeting(a: Person, b: Person): boolean {
 //   return meetings.sort((_a, _b) => 0.5 - Math.random());
 // }
 
-export function createMeetings(entities: Entities): Meetings {
+export function createMeetings(entities: Entities, filters: Filters): Meetings {
   const meetings: Meetings = [];
 
   for (let i = 0; i < entities.teams.length; i++) {
@@ -61,7 +69,7 @@ export function createMeetings(entities: Entities): Meetings {
         const a = n[j],
           b = l[k];
 
-        if (!excludeMeeting(a, b)) {
+        if (!excludeMeeting(a, b, filters)) {
           meetings.push({ a, b });
         }
       }

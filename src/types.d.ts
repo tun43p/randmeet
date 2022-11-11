@@ -32,3 +32,7 @@ export type Meeting = {
 };
 
 export type Meetings = Meeting[];
+
+export type Filter = string;
+
+export type Filters = Filter[];
