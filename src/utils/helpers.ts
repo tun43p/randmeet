@@ -44,12 +44,15 @@ export function getEntitiesFromRows(rows: Rows): Entities {
 }
 
 function excludeMeeting(a: Person, b: Person, filters: Filters): boolean {
-  return (
+  const isBothInStatusList =
     a.status !== undefined &&
     b.status != undefined &&
     filters.includes(a.status) &&
-    filters.includes(b.status)
-  );
+    filters.includes(b.status);
+
+  const isBothTheSameTeam = a.team.name == b.team.name;
+
+  return isBothInStatusList || isBothTheSameTeam;
 }
 
 // If we need randomness
