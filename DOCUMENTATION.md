@@ -8,7 +8,8 @@
 
 ## Format du fichier CSV
 
-Le fichier CSV doit obligatoirement avoir ce format:
+Le fichier CSV doit obligatoirement avoir des points virgules pour la séparation
+des données et avoir ce format:
 
 | Nom           | Status  |   Projet |
 | :------------ | :-----: | -------: |
