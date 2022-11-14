@@ -4,12 +4,13 @@ import {
   Meetings,
   Person,
   Persons,
+  Results,
   Rows,
   Teams,
 } from "../types";
 import { csvDelimiter } from "./constants";
 
-// // TODO(tun43p): Can we use react-csv to import data from file ?
+// TODO(tun43p): Can we use react-csv to import data from file ?
 export async function getRowsFromCSVFile(file: File): Promise<Rows> {
   const input = await file.text();
 
@@ -44,15 +45,17 @@ export function getEntitiesFromRows(rows: Rows): Entities {
 }
 
 function excludeMeeting(a: Person, b: Person, filters: Filters): boolean {
+  const isBothTheSamePerson = a == b;
+
   const isBothInStatusList =
     a.status !== undefined &&
     b.status != undefined &&
     filters.includes(a.status) &&
     filters.includes(b.status);
 
-  const isBothTheSameTeam = a.team.name == b.team.name;
+  const isBothInTheSameTeam = a.team.name == b.team.name;
 
-  return isBothInStatusList || isBothTheSameTeam;
+  return isBothTheSamePerson || isBothInStatusList || isBothInTheSameTeam;
 }
 
 // If we need randomness
@@ -63,18 +66,13 @@ function excludeMeeting(a: Person, b: Person, filters: Filters): boolean {
 export function createMeetings(entities: Entities, filters: Filters): Meetings {
   const meetings: Meetings = [];
 
-  for (let i = 0; i < entities.teams.length; i++) {
-    const n = entities.persons.filter((person) => person.team.index === i);
-    const l = entities.persons.filter((person) => person.team.index > i);
+  for (let i = 0; i < entities.persons.length; i++) {
+    for (let j = 0; j < entities.persons.length; j++) {
+      const a = entities.persons[i];
+      const b = entities.persons[j];
 
-    for (let j = 0; j < n.length; j++) {
-      for (let k = 0; k < l.length; k++) {
-        const a = n[j],
-          b = l[k];
-
-        if (!excludeMeeting(a, b, filters)) {
-          meetings.push({ a, b });
-        }
+      if (!excludeMeeting(a, b, filters)) {
+        meetings.push({ a: entities.persons[i], b: entities.persons[j] });
       }
     }
   }
@@ -82,6 +80,14 @@ export function createMeetings(entities: Entities, filters: Filters): Meetings {
   return meetings;
 }
 
-export function convertMeetingsToCSV(meetings: Meetings) {
-  return meetings.map((meeting) => [meeting.a.name, meeting.b.name]);
+// If we modify this function, don't forget to update csvHeaders
+export function convertMeetingsToCSV(meetings: Meetings): Results {
+  return meetings.map((meeting) => [
+    meeting.a.name,
+    meeting.a.team.name,
+    meeting.a.status ?? "N/A",
+    meeting.b.name,
+    meeting.b.team.name,
+    meeting.b.status ?? "N/A",
+  ]);
 }
